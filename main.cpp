@@ -6,7 +6,7 @@
 int main() {
 	std::vector<std::string> res = ProcessParser::getPidList();
 	for(std::string pid : res) {
-		std::cout<<pid<<std::endl;
+		ProcessParser::getVmSize(pid);
 	}
 	return 0;
 }
