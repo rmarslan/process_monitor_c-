@@ -46,7 +46,7 @@ std::string ProcessParser::getVmSize(std::string pid) {
     std::string line;
     std::string name = "VmData";
     std::string value;
-    float result;
+    int result;
     // open stream for a specific file
     std::ifstream stream = Util::getStream( (Path::basePath() + pid + Path::statusPath()) );
 
@@ -64,11 +64,11 @@ std::string ProcessParser::getVmSize(std::string pid) {
             std::vector<std::string> values(begin, end);
 
             // conversion kB -> GB
-            result = ( stof(values[1]) / float(1024*1024) );
+            // result = ( stof(values[1]) / float(1024*1024) );
+            result = stof(values[1]);
             break;
         }
     }
-
     return std::to_string(result);
 }
 
@@ -98,7 +98,6 @@ std::string ProcessParser::getProcUser(std::string pid) {
     while ( std::getline(stream, line) ) {
         if ( line.find(name) != std::string::npos ) {
             result = line.substr( 0, line.find(":") );
-            std::cout<<result<<std::endl;
             return result;
         }
     }
