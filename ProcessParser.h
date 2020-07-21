@@ -19,6 +19,7 @@ class ProcessParser {
     public: 
         static std::vector<std::string> getPidList();
         static std::string getVmSize(std::string pid);
+        static std::string getProcUser(std::string pid);
 };
 
 std::vector<std::string> ProcessParser::getPidList() {
@@ -69,6 +70,40 @@ std::string ProcessParser::getVmSize(std::string pid) {
     }
 
     return std::to_string(result);
+}
+
+/* Retrieve the process user thru UID*/
+std::string ProcessParser::getProcUser(std::string pid) {
+    std::string line;
+
+    std::string name = "Uid";
+    std::string result = "";
+    // open stream for a specific line
+    std::ifstream stream = Util::getStream( ( Path::basePath() + pid + Path::statusPath() ) );
+
+    // Getting UID for user
+    while ( std::getline(stream, line) ) {
+        if ( line.compare(0, name.size(), name) == 0 ) {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
+            result = values[1];
+            break;
+        }
+    }
+    stream = Util::getStream("/etc/passwd");
+    name = "x:" + result;
+
+    // Search for name of the user with selected UID
+    while ( std::getline(stream, line) ) {
+        if ( line.find(name) != std::string::npos ) {
+            result = line.substr( 0, line.find(":") );
+            std::cout<<result<<std::endl;
+            return result;
+        }
+    }
+
+    return "";
 }
 
 #endif
