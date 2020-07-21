@@ -27,12 +27,13 @@ void ProcessContainer::refreshList(){
 }
 
 void ProcessContainer::printList() const {
+    std::cout<<"PID\t\t\tUsername\t\t\t<<Memory\n-----------------------------------------------------------\n";
     for(const auto& process: this->_list) {
         const std::string pid = process.getPid();
         const std::string user = process.getUser();
         const float mem = process.getMem();
 
-        std::cout<< pid << "\t\t" << user << "\t\t" << mem << " K\t\t" << std::endl;
+        std::cout<< pid << "\t\t\t" << user << "\t\t\t\t" << mem << " K" << std::endl;
     }
 }
 
