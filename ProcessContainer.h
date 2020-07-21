@@ -27,7 +27,7 @@ void ProcessContainer::refreshList(){
 }
 
 void ProcessContainer::printList() const {
-    std::cout<<"PID\t\t\tUsername\t\t\t<<Memory\n-----------------------------------------------------------\n";
+    std::cout<<"PID\t\t\tUsername\t\t\tMemory\n----------------------------------------------------------------------------\n";
     for(const auto& process: this->_list) {
         const std::string pid = process.getPid();
         const std::string user = process.getUser();
