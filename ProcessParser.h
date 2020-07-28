@@ -22,6 +22,7 @@ public:
     static std::string getVmSize(std::string pid);
     static std::string getProcUser(std::string pid);
     static std::string getOSName();
+    static std::string getSysKernelVersion();
 };
 
 std::vector<std::string> ProcessParser::getPidList()
@@ -136,6 +137,27 @@ std::string ProcessParser::getOSName()
             result.erase(std::remove(result.begin(), result.end(), '"'), result.end());
             return result; // For example:
                            // PRETTY_NAME="Ubuntu 16.04.5 LTS"
+        }
+    }
+
+    return "";
+}
+
+std::string ProcessParser::getSysKernelVersion()
+{
+    std::string line;
+    std::string name = "Linux version";
+    std::ifstream stream = Util::getStream((Path::basePath() + Path::versionPath()));
+
+    while (std::getline(stream, line))
+    {
+        if (line.compare(0, name.size(), name) == 0)
+        {
+            std::istringstream buf(line);
+            std::istream_iterator<std::string> begin(buf), end;
+            std::vector<std::string> values(begin, end);
+            return values[2]; // For example:
+                              // Linux version 4.15.0-52-generic (buildd@lgw01-amd64-054) ....... (omitted a lot tailing stuff)
         }
     }
 

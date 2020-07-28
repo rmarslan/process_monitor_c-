@@ -10,6 +10,7 @@ public:
     static std::string statusPath() { return "/status"; }
     static std::string osPath() { return "os-release"; }
     static std::string etcPath() { return "/etc/"; }
+    static std::string versionPath() { return "version"; }
 };
 
 #endif

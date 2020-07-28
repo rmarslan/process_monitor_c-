@@ -8,6 +8,7 @@
 void printSysInfo(SysInfo sys)
 {
 	std::cout << "OS: " << sys.getOSName() << std::endl;
+	std::cout << "Kernel Version: " << sys.getKernelVersion() << std::endl;
 }
 
 int main()
