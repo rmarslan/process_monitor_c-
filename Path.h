@@ -11,6 +11,7 @@ public:
     static std::string osPath() { return "os-release"; }
     static std::string etcPath() { return "/etc/"; }
     static std::string versionPath() { return "version"; }
+    static std::string memInfoPath(){ return "meminfo"; }
 };
 
 #endif

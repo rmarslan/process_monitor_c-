@@ -23,6 +23,8 @@ public:
     static std::string getProcUser(std::string pid);
     static std::string getOSName();
     static std::string getSysKernelVersion();
+    static float getTotalSysMem();
+    static float generateMemory(std::string line);
 };
 
 std::vector<std::string> ProcessParser::getPidList()
@@ -162,6 +164,37 @@ std::string ProcessParser::getSysKernelVersion()
     }
 
     return "";
+}
+
+float ProcessParser::getTotalSysMem()
+{
+    std::string line;
+    std::string name = "MemTotal";
+    float result;
+
+    std::ifstream stream = Util::getStream((Path::basePath() + Path::memInfoPath()));
+
+    while (std::getline(stream, line))
+    {
+        if (line.compare(0, name.size(), name) == 0)
+        {
+            result = ProcessParser::generateMemory(line);
+            return result;
+        }
+    }
+    return -1;
+}
+
+float ProcessParser::generateMemory(std::string line)
+{
+    std::istringstream buf(line);
+    std::istream_iterator<std::string> begin(buf), end;
+    std::vector<std::string> values(begin, end);
+
+    return stof(values[1]); // For example:
+                            // MemFree:       55556048 kB
+                            // MemAvailable:  60598508 kB
+                            // Buffers:         923428 kB
 }
 
 #endif
