@@ -25,6 +25,7 @@ public:
     static std::string getSysKernelVersion();
     static float getTotalSysMem();
     static float generateMemory(std::string line);
+    static float getAvailableSysMem();
 };
 
 std::vector<std::string> ProcessParser::getPidList()
@@ -170,6 +171,25 @@ float ProcessParser::getTotalSysMem()
 {
     std::string line;
     std::string name = "MemTotal";
+    float result;
+
+    std::ifstream stream = Util::getStream((Path::basePath() + Path::memInfoPath()));
+
+    while (std::getline(stream, line))
+    {
+        if (line.compare(0, name.size(), name) == 0)
+        {
+            result = ProcessParser::generateMemory(line);
+            return result;
+        }
+    }
+    return -1;
+}
+
+float ProcessParser::getAvailableSysMem()
+{
+    std::string line;
+    std::string name = "MemAvailable";
     float result;
 
     std::ifstream stream = Util::getStream((Path::basePath() + Path::memInfoPath()));
