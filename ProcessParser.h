@@ -28,6 +28,7 @@ public:
     static float getAvailableSysMem();
     static float getUsedSysMemory();
     static float getSysMemPercent();
+    static std::string getCmd(std::string pid);
 };
 
 std::vector<std::string> ProcessParser::getPidList()
@@ -235,6 +236,15 @@ float ProcessParser::generateMemory(std::string line)
                             // MemFree:       55556048 kB
                             // MemAvailable:  60598508 kB
                             // Buffers:         923428 kB
+}
+
+std::string ProcessParser::getCmd(std::string pid)
+{
+    std::string line;
+    std::ifstream stream = Util::getStream((Path::basePath() + pid + Path::cmdPath()));
+    std::getline(stream, line);
+
+    return line;
 }
 
 #endif

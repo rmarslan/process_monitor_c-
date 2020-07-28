@@ -4,37 +4,49 @@
 #include <string>
 #include "ProcessParser.h"
 
-class Process {
-  private:
+class Process
+{
+private:
     std::string pid_;
     std::string user_;
     std::string mem_;
+    std::string cmdCommand_;
 
-  public:
-    Process(std::string pid) {
+public:
+    Process(std::string pid)
+    {
         this->pid_ = pid;
         this->user_ = ProcessParser::getProcUser(pid);
         this->mem_ = ProcessParser::getVmSize(pid);
+        this->cmdCommand_ = ProcessParser::getCmd(pid);
     }
 
     // getters
-    std::string getPid()const;
-    std::string getUser()const;
-    int getMem()const;
+    std::string getPid() const;
+    std::string getUser() const;
+    int getMem() const;
+    std::string getCmd() const;
 };
 
 // definitions of getters
-std::string Process::getPid() const {
+std::string Process::getPid() const
+{
     return this->pid_;
 }
 
-std::string Process::getUser() const {
+std::string Process::getUser() const
+{
     return this->user_;
 }
 
-
-int Process::getMem() const {
+int Process::getMem() const
+{
     return std::stod(mem_); // A c++11 feature;
+}
+
+std::string Process::getCmd() const
+{
+    return this->cmdCommand_;
 }
 
 #endif
