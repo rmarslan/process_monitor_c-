@@ -33,14 +33,16 @@ void ProcessContainer::refreshList()
 
 void ProcessContainer::printList() const
 {
-    std::cout << "PID\t\tUsername\t\tMemory\n----------------------------------------------------------------------------\n";
+    std::cout << "PID\t\tUsername\t\tMemory\t\tMemory Percent\n----------------------------------------------------------------------------\n";
     for (const auto &process : this->_list)
     {
         const std::string pid = process.getPid();
         const std::string user = process.getUser();
         const float mem = process.getMem();
+        const float memPerc = process.getMemPer();
         const std::string cmd = process.getCmd();
-        std::cout << pid << "\t\t" << user << "\t\t" << mem << " K" << std::endl;
+        std::cout << pid << "\t\t" << user << "\t\t" << mem << " KB"
+                  << "\t\t" << memPerc << "%" << std::endl;
     }
 }
 

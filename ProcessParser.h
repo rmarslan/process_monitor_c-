@@ -29,6 +29,7 @@ public:
     static float getUsedSysMemory();
     static float getSysMemPercent();
     static std::string getCmd(std::string pid);
+    static float getProcessPercent(const std::string pid);
 };
 
 std::vector<std::string> ProcessParser::getPidList()
@@ -245,6 +246,16 @@ std::string ProcessParser::getCmd(std::string pid)
     std::getline(stream, line);
 
     return line;
+}
+
+float ProcessParser::getProcessPercent(const std::string pid)
+{
+    float memUsed = (std::stod(ProcessParser::getVmSize(pid)) / (1024 * 1024));
+    float totalMem = (ProcessParser::getTotalSysMem() / (1024 * 1024));
+
+    float result = (memUsed / totalMem) * 100;
+
+    return result;
 }
 
 #endif

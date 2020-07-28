@@ -11,6 +11,7 @@ private:
     std::string user_;
     std::string mem_;
     std::string cmdCommand_;
+    float memPer_;
 
 public:
     Process(std::string pid)
@@ -19,6 +20,7 @@ public:
         this->user_ = ProcessParser::getProcUser(pid);
         this->mem_ = ProcessParser::getVmSize(pid);
         this->cmdCommand_ = ProcessParser::getCmd(pid);
+        this->memPer_ = ProcessParser::getProcessPercent(pid);
     }
 
     // getters
@@ -26,6 +28,7 @@ public:
     std::string getUser() const;
     int getMem() const;
     std::string getCmd() const;
+    float getMemPer() const;
 };
 
 // definitions of getters
@@ -47,6 +50,11 @@ int Process::getMem() const
 std::string Process::getCmd() const
 {
     return this->cmdCommand_;
+}
+
+float Process::getMemPer() const
+{
+    return this->memPer_;
 }
 
 #endif
