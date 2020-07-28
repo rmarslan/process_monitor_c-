@@ -26,6 +26,8 @@ public:
     static float getTotalSysMem();
     static float generateMemory(std::string line);
     static float getAvailableSysMem();
+    static float getUsedSysMemory();
+    static float getSysMemPercent();
 };
 
 std::vector<std::string> ProcessParser::getPidList()
@@ -203,6 +205,24 @@ float ProcessParser::getAvailableSysMem()
         }
     }
     return -1;
+}
+
+float ProcessParser::getUsedSysMemory()
+{
+    float totalMemory = ProcessParser::getTotalSysMem();
+    float availableMemory = ProcessParser::getAvailableSysMem();
+    float usedMem = totalMemory - availableMemory;
+    return usedMem;
+}
+
+float ProcessParser::getSysMemPercent()
+{
+    float totalMemory = (ProcessParser::getTotalSysMem() / (1024 * 1024));
+    float usedMemory = (ProcessParser::getUsedSysMemory() / (1024 * 1024));
+
+    float result = (usedMemory / totalMemory) * 100;
+
+    return result;
 }
 
 float ProcessParser::generateMemory(std::string line)

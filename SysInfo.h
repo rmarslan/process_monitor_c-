@@ -9,6 +9,8 @@ private:
     std::string kernelVersion;
     float totalSysMem;
     float availableSysMemory;
+    float usedSysMem;
+    float usedSysMemPercent;
 
 public:
     SysInfo()
@@ -17,11 +19,15 @@ public:
         this->kernelVersion = ProcessParser::getSysKernelVersion();
         this->totalSysMem = ProcessParser::getTotalSysMem();
         this->availableSysMemory = ProcessParser::getAvailableSysMem();
+        this->usedSysMem = ProcessParser::getUsedSysMemory();
+        this->usedSysMemPercent = ProcessParser::getSysMemPercent();
     }
     std::string getOSName();
     std::string getKernelVersion();
     float getTotalSysMem();
     float getAvailableSysMem();
+    float getUsedSysMem();
+    float getSysMemPercent();
 };
 
 std::string SysInfo::getOSName()
@@ -45,3 +51,14 @@ float SysInfo::getAvailableSysMem()
     float memInGB = (this->availableSysMemory / (1024 * 1024));
     return memInGB;
 }
+
+float SysInfo::getUsedSysMem()
+{
+    float memInGB = (this->usedSysMem / (1024 * 1024));
+    return memInGB;
+}
+
+float SysInfo::getSysMemPercent()
+{
+    return this->usedSysMemPercent;
+};
